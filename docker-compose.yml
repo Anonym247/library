@@ -1,0 +1,62 @@
+version: '3.6'
+services:
+
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: cloudsigma.com/php
+        platform: linux/amd64
+        container_name: app
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www/html/
+        volumes:
+            - ./:/var/www/html/
+            - ./docker/php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+        networks:
+            - libraryapp
+
+    webserver:
+        image: nginx:alpine
+        container_name: webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www/html/
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - libraryapp
+
+    db:
+        image: mysql:5.7.32
+        platform: linux/amd64
+        container_name: db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: libraryapp
+            MYSQL_ROOT_PASSWORD: secret123456
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - dbdata:/var/lib/mysql/
+            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+        networks:
+            - libraryapp
+
+networks:
+    libraryapp:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local
