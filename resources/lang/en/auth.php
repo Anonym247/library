@@ -17,5 +17,7 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'invalid_credentials' => 'The given credentials are not correct to authenticate requested user.',
+    'logged_out' => 'Successfully logged out from system.'
 
 ];

@@ -45,7 +45,7 @@ class AuthService
         } else if ($token = Auth::guard('readers')->attempt($credentials)) {
             $this->user = Auth::guard('readers')->user();
         } else {
-            throw new AuthenticationException(__('messages.auth.invalid_credentials'));
+            throw new AuthenticationException(__('auth.invalid_credentials'));
         }
 
         return (string)$token;

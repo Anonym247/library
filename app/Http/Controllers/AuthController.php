@@ -64,6 +64,6 @@ class AuthController extends Controller
     {
         $this->auth_service->logout();
 
-        return $this->response(__('messages.auth.logged_out'));
+        return $this->response(__('messages.logged_out'));
     }
 }

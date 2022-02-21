@@ -53,13 +53,13 @@ class HireController extends Controller
     public function store(StoreRequest $request): JsonResponse
     {
         if (!$this->book_service->isAvailable($request->get('book_id'))) {
-            return $this->response(__('messages.book_is_not_in_stock'), [], ResponseAlias::HTTP_NOT_FOUND);
+            return $this->response(__('messages.book.out_of_stock'), [], ResponseAlias::HTTP_NOT_FOUND);
         }
 
         $reader = getAuthGuard()->user();
 
         if (!$this->reader_service->checkReaderAvailability()) {
-            throw new NotFoundHttpException(__('messages.reader_has_omissions'));
+            throw new NotFoundHttpException(__('messages.reader.has_omissions'));
         }
 
         $data = array_merge($request->validated(), ['reader_id' => $reader->getAuthIdentifier()]);
@@ -76,11 +76,11 @@ class HireController extends Controller
     public function giveBack(GiveBackRequest $request): JsonResponse
     {
         if (!$this->book_service->isHiredByCurrentReader((int)$request->get('book_id'))) {
-            return $this->response(__('messages.is_not_belongs_to_you'), [], ResponseAlias::HTTP_BAD_REQUEST);
+            return $this->response(__('messages.book.not_hired_by_current_reader'), [], ResponseAlias::HTTP_BAD_REQUEST);
         }
 
         $this->hire_service->giveBack((int)$request->get('book_id'));
 
-        return $this->response(__('messages.successfully_returned'));
+        return $this->response(__('messages.book.successfully_returned'));
     }
 }
