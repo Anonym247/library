@@ -5,6 +5,7 @@ namespace App\Models;
 
 use App\Traits\CentralizedUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -14,6 +15,7 @@ class Librarian extends Authenticatable implements JWTSubject
     use CentralizedUser;
 
     public const ROLE_ID = 1;
+    public const HIT_TYPE_NAME = 'best_librarian';
 
     /**
      * @var string[]
@@ -54,5 +56,13 @@ class Librarian extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function hires(): HasMany
+    {
+        return $this->hasMany(Hire::class);
     }
 }
