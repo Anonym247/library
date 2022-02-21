@@ -15,13 +15,11 @@ Make sure you are not running webserver or mysql on this ports : [80, 443, 3306,
 
 4. RUN - cd /var/www/html
 
-5. RUN -
+5. RUN php artisan migrate --seed
 
-6. RUN php artisan migrate --seed
+6. Exit from container ( RUN - exit )
 
-7. Exit from container ( RUN - exit )
-
-8. Try postman collection to try API endpoints of Library
+7. Try postman collection to try API endpoints of Library
 
 
 GOOD LUCK !
