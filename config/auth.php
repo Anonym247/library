@@ -15,7 +15,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'librarians',
         'passwords' => 'users',
     ],
 
@@ -37,10 +37,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+        'librarians' => [
+            'driver' => 'jwt',
+            'provider' => 'librarians'
         ],
+        'readers' => [
+            'driver' => 'jwt',
+            'provider' => 'readers'
+        ]
     ],
 
     /*
@@ -61,15 +65,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'librarians' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => \App\Models\Librarian::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'readers' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Reader::class,
+        ],
     ],
 
     /*
